@@ -43,6 +43,8 @@ Requirements
 Requirement #1: Recreate the Zip Code spreadsheet as a custom Territory object. The custom
 object should have the following custom fields:
 
+First Field *****
+
 Field Name ---> Zip Code 
 
 Field Type ---> Text
@@ -50,6 +52,7 @@ Field Type ---> Text
 Description ----> The standard name field. Each record will be named after its specific zip code.
 
 
+Second Field ****
 
 Field Name --------> Owner
 
@@ -59,10 +62,13 @@ Description --------> The standard owner field. The sales rep assigned to this t
 
 
 
+
 Note: All fields should have field history tracking turned on.
 
 
+
 Requirement #2: When an Account’s BillingPostalCode (aka Zip Code), is changed,
+
 1. Change the Account Owner to the sales representative assigned to the new zip code
 2. Change the Owner field of all the Account’s Contacts to the same sales rep
 3. Change the Owner field of all the Account’s Open Opportunities to the same sales rep
