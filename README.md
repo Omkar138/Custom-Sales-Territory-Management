@@ -8,8 +8,11 @@ Each sales representative has a territory of one or more zip codes. Sales reps o
 with all auto dealers in their zip code territories.
 
 Firebolt Motors Inc. currently uses Salesforce to track their sales activities, including:
+
 ● Accounts: Each account represents an automobile dealer.
+
 ● Opportunities: A sale of vehicles to an automobile dealer.
+
 ● Contacts: Automobile dealer employees.
 
 The Sales Operations team uses a combination of Salesforce and spreadsheets to manage
