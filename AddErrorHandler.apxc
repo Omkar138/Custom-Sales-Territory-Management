@@ -1,0 +1,49 @@
+//AddErrorHandler Class
+
+public class AddErrorHandler
+{
+	
+       //Error On adding 4th Sales Representative
+    public static void AddError(List<Territory1__c> tList)
+    {
+         
+       Set<String> NameSet = new Set<String>();
+           Map<String,Integer> TerritoryOwnerRecords = new Map<String,Integer>();
+               
+        for(Territory1__c t : tList)
+        {
+            NameSet.add(t.Name);
+            System.debug('Name Set ====> '+NameSet);
+        }
+          for(AggregateResult a : [SELECT Name ,COUNT(OwnerId) Number From Territory1__c WHERE Name IN : NameSet GROUP By Name ] )
+         {
+             String Name = (String)a.get('Name');
+              TerritoryOwnerRecords.put( Name , (integer) a.get('Number'));
+             System.debug('TerritoryOwnerRecords ====>>>' + TerritoryOwnerRecords);
+         }
+     //Random Owner Sales Representative Picker
+       Integer count =[SELECT Count() FROM Territory1__c] ;
+		Integer rand = Math.floor(Math.random() * count).intValue();
+		Territory1__c c = [SELECT OwnerId FROM Territory1__c LIMIT 1 OFFSET :rand  ];
+        System.debug('Random Territory Record ===>>>> '+ c);
+        
+        for(Territory1__c t : tList)
+        {
+            if(TerritoryOwnerRecords.containsKey(t.Name))
+            {
+            if(TerritoryOwnerRecords.get(t.Name)>=3)
+            {
+                 
+                t.addError('You cannot add more than 3 Representatives');
+            }
+                
+        }
+            if(TerritoryOwnerRecords.containsKey(t.Name))
+            {
+                System.debug('Respectable Zip Code and its Random Owner Id');
+                System.debug('Zip Code is '+t.Name +'Random Owner of this Zip code is ='+ c);
+            }
+          
+        }      
+    }
+}
