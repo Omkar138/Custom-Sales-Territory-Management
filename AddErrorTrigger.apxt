@@ -1,0 +1,11 @@
+//AddError Trigger.
+
+trigger AddErrorTrigger on Territory1__c (before insert) 
+{
+	if(Trigger.isInsert &&  Trigger.isBefore)
+    {
+        AddErrorHandler.AddError(Trigger.New); 
+        
+    }
+    
+}
