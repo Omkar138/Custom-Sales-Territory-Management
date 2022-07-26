@@ -22,11 +22,17 @@ and their sales rep is stored in spreadsheet that looks like this:
 Zip Code Sales Representative
 
 91000    Blake
+
 91001    Blake
+
 91002    Blake
+
 91002    Jacqueline
+
 91010    Jacqueline
+
 91020    Jacqueline
+
 
 Since Firebolt Motors Inc.’s sales team has tripled in size in the past year, the Sales Operations
 team is having trouble keeping up with all the sales territory changes. This process must be
