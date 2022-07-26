@@ -1,0 +1,9 @@
+//FireBolt Trigger.
+
+trigger FireBolt on Account (before insert,before update) 
+{
+    if(Trigger.IsUpdate && Trigger.IsBefore && Trigger.isInsert)
+    { 
+        AccountHandlerFirebolt.ChangeAccountOwner(Trigger.New,Trigger.oldMap);  
+    }
+} 
