@@ -21,17 +21,17 @@ User record when the Account’s Zip Code belongs to the sales rep. currently, a
 and their sales rep is stored in spreadsheet that looks like this:
 Zip Code Sales Representative
 
-91000    Blake
+91000 -----> Blake
 
-91001    Blake
+91001 -----> Blake
 
-91002    Blake
+91002 -----> Blake
 
-91002    Jacqueline
+91002 -----> Jacqueline
 
-91010    Jacqueline
+91010 -----> Jacqueline
 
-91020    Jacqueline
+91020 -----> Jacqueline
 
 
 Since Firebolt Motors Inc.’s sales team has tripled in size in the past year, the Sales Operations
@@ -43,24 +43,35 @@ Requirements
 Requirement #1: Recreate the Zip Code spreadsheet as a custom Territory object. The custom
 object should have the following custom fields:
 
-Field        Field Type         Field Type Description
-Name         Text               Zip Code Text The standard name field. Each record will be named after its specific zip code.
+Field Name ---> Zip Code 
+
+Field Type ---> Text
+
+Description ----> The standard name field. Each record will be named after its specific zip code.
 
 
 
-Owner Lookup                   The standard owner field. The sales rep assigned to this
-User                                territory
+Field Name --------> Owner
+
+Field Type --------> Lookup (User)
+
+Description --------> The standard owner field. The sales rep assigned to this territory
+
 
 
 Note: All fields should have field history tracking turned on.
+
+
 Requirement #2: When an Account’s BillingPostalCode (aka Zip Code), is changed,
 1. Change the Account Owner to the sales representative assigned to the new zip code
 2. Change the Owner field of all the Account’s Contacts to the same sales rep
 3. Change the Owner field of all the Account’s Open Opportunities to the same sales rep
 
 Note:
+
 ● The logic should run only when the Account’s zip code is changed or populated for the
 first time
+
 ● If no matching Territories are found, do nothing
 
 
