@@ -1,0 +1,64 @@
+//AccountHandlerFireBolt
+
+public class AccountHandlerFirebolt
+{  
+    public static void ChangeAccountOwner(List<Account> aList , Map<Id,Account> oldAccountRecordsMap)
+    {    
+        Set<String> zipcodeSet = new Set<String>();
+        Map<String, Id> zipcodeAndOwnerIdMap = new Map<String, Id>();
+        Map<Id,Id> accIdAndOwnerIdMap = new Map<Id,Id>();
+        List<Contact> UpdateContacts = new List<Contact>();
+        List<Opportunity> UpdateOpportunities = new List<Opportunity>();
+        Map<Id,Territory1__c> SalesRepOwnerIdMap = new Map<Id,Territory1__c>();
+    
+        for(Account a : aList){
+            if(oldAccountRecordsMap.get(a.id).BillingPostalCode != a.BillingPostalCode)
+            {
+                 zipcodeSet.add(a.BillingPostalCode);
+            System.debug('ZipCodeSet is ===>>> ' + zipcodeSet);
+            }
+           
+        }
+        for(Territory1__c t : [SELECT Id, Name, OwnerId  FROM Territory1__c WHERE Name IN : zipcodeSet])
+        {
+            zipcodeAndOwnerIdMap.put(t.Name, t.OwnerId);
+            System.debug('ZipCode and OwnerId Map' + zipcodeAndOwnerIdMap);
+        }
+        for(Account a : aList)
+        {
+                if(zipcodeAndOwnerIdMap.containsKey(a.BillingPostalCode)){
+                    a.OwnerId = zipcodeAndOwnerIdMap.get(a.BillingPostalCode);
+                    System.debug('Account OwnerId' + a.OwnerId);
+                    accIdAndOwnerIdMap.put(a.Id, a.OwnerId);
+                    System.debug('accIdAndOwnerIdMap' + accIdAndOwnerIdMap);
+            }
+        }
+        for(Contact c : [SELECT Id,Name,AccountId,Phone FROM Contact WHERE AccountId IN : aList])
+        {
+            
+            if(accIdAndOwnerIdMap.containsKey(c.AccountId))
+            {
+                c.OwnerId = accIdAndOwnerIdMap.get(c.AccountId);
+                System.debug('C OwnerId '+ c.OwnerId);
+                UpdateContacts.add(c);
+            }
+        }
+        if(!UpdateContacts.isEmpty())
+        {
+            update UpdateContacts;
+        }
+        for(Opportunity o : [SELECT Id,Name,AccountId,StageName FROM Opportunity WHERE AccountId IN : aList AND StageName NOT IN ('Closed Won/Closed Lost')])
+        {
+            if(accIdAndOwnerIdMap.containsKey(o.AccountId))
+            {
+                o.OwnerId = accIdAndOwnerIdMap.get(o.AccountId);
+                System.debug('O OwnerId' + o.OwnerId);
+                UpdateOpportunities.add(o);
+            }
+        }
+        if(!UpdateOpportunities.isEmpty())
+        {
+            update UpdateOpportunities;
+        }
+    }
+}
